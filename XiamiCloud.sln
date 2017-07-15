@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XiamiCloud", "XiamiCloud\XiamiCloud.csproj", "{6C8B6897-6F0E-4770-AA31-DC4D917B0CEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileGenerators", "KglGenerator\FileGenerators.csproj", "{7B1A5CAB-AE58-4841-9FC7-B4DC1FA7F70E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{0BA5A00B-260C-4CED-9BB5-B47ABAA31A83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformHelper", "TransformHelper\TransformHelper.csproj", "{5C43F4B3-9DD8-4FF1-9A66-81BA566663CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C8B6897-6F0E-4770-AA31-DC4D917B0CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8B6897-6F0E-4770-AA31-DC4D917B0CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8B6897-6F0E-4770-AA31-DC4D917B0CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8B6897-6F0E-4770-AA31-DC4D917B0CEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1A5CAB-AE58-4841-9FC7-B4DC1FA7F70E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1A5CAB-AE58-4841-9FC7-B4DC1FA7F70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1A5CAB-AE58-4841-9FC7-B4DC1FA7F70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1A5CAB-AE58-4841-9FC7-B4DC1FA7F70E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BA5A00B-260C-4CED-9BB5-B47ABAA31A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BA5A00B-260C-4CED-9BB5-B47ABAA31A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BA5A00B-260C-4CED-9BB5-B47ABAA31A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BA5A00B-260C-4CED-9BB5-B47ABAA31A83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C43F4B3-9DD8-4FF1-9A66-81BA566663CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C43F4B3-9DD8-4FF1-9A66-81BA566663CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C43F4B3-9DD8-4FF1-9A66-81BA566663CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C43F4B3-9DD8-4FF1-9A66-81BA566663CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

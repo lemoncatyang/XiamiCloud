@@ -1,0 +1,45 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    min-height: 100%;
+    width: 100%;
+}
+
+.export-title {
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+}
+
+.export-form {
+    max-width: 80%;
+    margin: 12% auto 5% auto;
+}
+
+.export-btn {
+    margin: 0 auto;
+    display: block;
+    margin-top: 40px;
+}
+
+.support {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.support-group-wrapper {
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
