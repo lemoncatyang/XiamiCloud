@@ -12,11 +12,11 @@ namespace XiamiCloud.Controllers
 {
     public class XiamiToCloudController : Controller
     {
-        private readonly ISongsGetter _songsGetter;
+        private readonly XiamiSongsGetter _songsGetter;
 
         private readonly IFileGenerator _fileGenerator;
 
-        public XiamiToCloudController(IFileGenerator fileGenerator, ISongsGetter songsGetter)
+        public XiamiToCloudController(IFileGenerator fileGenerator, XiamiSongsGetter songsGetter)
         {
             _fileGenerator = fileGenerator;
             _songsGetter = songsGetter;

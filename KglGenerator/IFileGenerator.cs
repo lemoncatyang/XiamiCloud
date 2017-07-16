@@ -9,5 +9,7 @@ namespace FileGenerators
         MemoryStream GenerateKglFile(IEnumerable<Song> songs);
 
         MemoryStream GenerateTxtFile(IEnumerable<Song> songs);
+
+        MemoryStream GenerateDiffFile(List<string> songs);
     }
 }

@@ -14,6 +14,8 @@ namespace TransformHelper
     {
         public HttpClient HttpClient { get; set; } = new HttpClient();
 
+        public HtmlWeb WebClient { get; set; } = new HtmlWeb();
+
         public TransformResult TransformResult { get; set; } = new TransformResult();
 
         public async Task<TransformResult> GetSongsBasedOnUrl(string url)

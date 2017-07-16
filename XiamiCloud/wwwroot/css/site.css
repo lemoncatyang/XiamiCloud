@@ -20,6 +20,11 @@ body {
     margin: 12% auto 5% auto;
 }
 
+.validation-form {
+    max-width:80%;
+    margin:8% auto 5% auto;
+}
+
 .export-btn {
     margin: 0 auto;
     display: block;

@@ -29,7 +29,8 @@ namespace XiamiCloud
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc();
-            services.AddTransient<ISongsGetter, XiamiSongsGetter>();
+            services.AddTransient<XiamiSongsGetter>();
+            services.AddTransient<CloudSongsGetter>();
             services.AddTransient<IFileGenerator, FileGenerator>();
         }
 

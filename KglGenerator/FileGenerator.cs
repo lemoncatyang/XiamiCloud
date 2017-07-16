@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Model;
 using System.Collections.Generic;
@@ -33,7 +34,24 @@ namespace FileGenerators
             var unrecognizedSongsSb = new StringBuilder();
             songs.ToList().ForEach(s =>
             {
-                unrecognizedSongsSb.Append($"歌曲：{s.Artist} - 艺术家：{s.SongName}    ");
+                unrecognizedSongsSb.Append($"歌曲：{s.Artist} - 艺术家：{s.SongName}");
+                unrecognizedSongsSb.Append(Environment.NewLine);
+            });
+            var memoryStream = new MemoryStream();
+            var writer = new StreamWriter(memoryStream);
+            writer.Write(unrecognizedSongsSb.ToString());
+            writer.Flush();
+            memoryStream.Position = 0;
+            return memoryStream;
+        }
+
+        public MemoryStream GenerateDiffFile(List<string> songs)
+        {
+            var unrecognizedSongsSb = new StringBuilder();
+            songs.ToList().ForEach(s =>
+            {
+                unrecognizedSongsSb.Append($"歌曲：{s}");
+                unrecognizedSongsSb.Append(Environment.NewLine);
             });
             var memoryStream = new MemoryStream();
             var writer = new StreamWriter(memoryStream);
