@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using FileGenerators;
 using Microsoft.AspNetCore.Mvc;
+using XiamiCloud.Infrastructure;
+using Model;
 using TransformHelper;
 using XiamiCloud.ViewModels;
 
@@ -20,7 +22,7 @@ namespace XiamiCloud.Controllers
             _songsGetter = songsGetter;
         }
 
-        // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -28,12 +30,29 @@ namespace XiamiCloud.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TransformFromXiamiToCloud(UrlInfo url)
+        public async Task<IActionResult> Result(UrlInfo url)
         {
             await _songsGetter.GetSongsBasedOnUrl(url.UrlPrefix + url.UrlStr);
             var result = _songsGetter.TransformResult;
-            var fileStream = _fileGenerator.GenerateKglFile(result);
+            HttpContext.Session.SetJson("result", result);
+            return View(result);
+        }
+
+        [HttpPost]
+        public IActionResult DownloadRecognizedSongsKgl()
+        {
+            var result = HttpContext.Session.GetJson<TransformResult>("result");
+            var fileStream = _fileGenerator.GenerateKglFile(result.RecognizedSongs);
             return File(fileStream, "application/x-msdownload", "我的虾米歌单.kgl");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DownloadUnRecognizedSongsTxt()
+        {
+            var result = HttpContext.Session.GetJson<TransformResult>("result");
+            var fileStream = _fileGenerator.GenerateTxtFile(result.UnrecognizedSongs);
+            return File(fileStream, "application/x-msdownload", "识别失败歌曲列表.txt");
         }
     }
 }

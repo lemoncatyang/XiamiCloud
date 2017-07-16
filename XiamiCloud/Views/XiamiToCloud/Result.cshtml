@@ -1,0 +1,25 @@
+﻿@model TransformResult
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="result-wrapper">
+    <div class="well result-well">
+        <div class="alert alert-success" role="alert">
+            <h4>识别成功的歌曲共有 @Model.RecognizedSongs.Count 首</h4>
+        </div>
+        <form method="post" asp-action="DownloadRecognizedSongsKgl" asp-controller="XiamiToCloud">
+            <input type="submit" class="btn btn-primary" value="导出识别成功歌单(.kgl)">
+        </form>
+    </div>
+
+    <div class="well result-well">
+        <div class="alert alert-danger" role="alert">
+            <h4>识别失败的歌曲共有 @Model.UnrecognizedSongs.Count 首</h4>
+        </div>
+        <form method="post" asp-action="DownloadUnRecognizedSongsTxt" asp-controller="XiamiToCloud"  style="display:inline">
+            <input type="submit" class="btn btn-primary" asp-for="@Model.UnrecognizedSongs" value="导出识别失败歌单(.txt)">
+        </form>
+    </div>
+</div>

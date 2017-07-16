@@ -1,0 +1,19 @@
+﻿@model UrlInfo
+
+@{
+    ViewBag.Title = "网易云歌单导出";
+    Layout = "_Layout";
+}
+
+<form class="export-form" method="post" asp-controller="CloudToXiami" asp-action="Result" asp-antiforgery="true">
+    <h2 class="export-title">
+        网易云歌单导出
+    </h2>
+    <div class="form-group">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon">http://music.163.com/playlist?id=</span>
+            <input type="text" class="form-control" placeholder="请按照教程输入内容" asp-for="UrlStr" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg export-btn" disabled>制作中</button>
+</form>

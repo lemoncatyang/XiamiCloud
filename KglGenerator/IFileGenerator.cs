@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Model;
 
 namespace FileGenerators
 {
     public interface IFileGenerator
     {
-        MemoryStream GenerateKglFile(TransformResult result);
+        MemoryStream GenerateKglFile(IEnumerable<Song> songs);
+
+        MemoryStream GenerateTxtFile(IEnumerable<Song> songs);
     }
 }

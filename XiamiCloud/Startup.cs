@@ -26,6 +26,8 @@ namespace XiamiCloud
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc();
             services.AddTransient<ISongsGetter, XiamiSongsGetter>();
             services.AddTransient<IFileGenerator, FileGenerator>();
@@ -48,7 +50,7 @@ namespace XiamiCloud
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
