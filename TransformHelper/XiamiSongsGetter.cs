@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Model;
@@ -20,6 +21,9 @@ namespace TransformHelper
 
         public async Task<TransformResult> GetSongsBasedOnUrl(string url)
         {
+            HttpClient.DefaultRequestHeaders.Add("Cookie", "gid=15076376171495; _unsign_token=9286b5aad9a9e92e264f6415c3c2ab5c; bdshare_firstime=1507637618238; UM_distinctid=15f0634664aa25-0f89036b57550e-c303767-1fa400-15f0634664b498; cna=obRXEpyFhUMCAXLarFWZL7OU; join_from=gTDMS49M6TxmgKc; _xiamitoken=66c7f9e512bceca8df5f063c7365feab; _m_h5_tk=9d5f9fab5ea4af2e3ae10bd026c23ec2_1513258783210; _m_h5_tk_enc=db1409de2b0489944091feaa44093c95; CNZZDATA2629111=cnzz_eid%3D1091665217-1507636031-http%253A%252F%252Fmail.126.com%252F%26ntime%3D1513256645; login_method=tblogin; member_auth=0jrIHYYYvWkyivfDTNhkcScctLDTEjKOxNxQ2bIrtVQgcIhYZdetkKuVQA5J3CWXrmFWRePLhm4VSoEBdJ%2BZyA; user=42514546%22yangkeke_lov%22images%2Fdefault%2Favatar_g.jpg%220%2210540%22%3Ca+href%3D%27http%3A%2F%2Fwww.xiami.com%2Fwebsitehelp%23help9_3%27+%3ELv7%3C%2Fa%3E%220%220%2227493%22ca4d51ee20%221513256843; t_sign_auth=1; CNZZDATA921634=cnzz_eid%3D547028261-1507635160-http%253A%252F%252Fmail.126.com%252F%26ntime%3D1513258319; isg=Ahoasd2RFCc_oJtl7XBkx86Ka8D8458jjb9vXCSTxq14l7rRDNvuNeDlE1Xw");
+            var cookieResponse = await HttpClient.GetAsync("https://www.xiami.com/space/lib-song/u/42514546?spm=a1z1s.6928797.1561534497.4.4omzvX");
+
             var questionMarkPos = url.IndexOf("?", StringComparison.Ordinal);
             if (questionMarkPos <= 0 || url.Contains("/page"))
             {
@@ -38,9 +42,9 @@ namespace TransformHelper
                 urls.Add(url.Remove(url.LastIndexOf("/", StringComparison.Ordinal) + 1) + i);
             }
 
-            urls.ForEach(async u =>
+            urls.ForEach(u =>
             {
-                await GetSongsInfo(u);
+                GetSongsInfo(u).GetAwaiter().GetResult();
             });
 
             return TransformResult;
@@ -48,6 +52,7 @@ namespace TransformHelper
 
         private async Task GetSongsInfo(string url)
         {
+
             var content = await GetHtmlContent(url);
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(content);
@@ -92,7 +97,9 @@ namespace TransformHelper
 
         private async Task<string> GetHtmlContent(string url)
         {
-            var response = HttpClient.GetAsync(url).Result;
+            //HttpClient.DefaultRequestHeaders.Add("Host", "www.xiami.com");
+            HttpClient.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+            var response = await HttpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
             return WebUtility.HtmlDecode(result);
         }
