@@ -42,46 +42,54 @@ namespace TransformHelper
                 urls.Add(url.Remove(url.LastIndexOf("/", StringComparison.Ordinal) + 1) + i);
             }
 
-            urls.ForEach(u =>
-            {
-                GetSongsInfo(u).GetAwaiter().GetResult();
-            });
+            urls.ForEach(
+                u =>
+                {
+
+                    GetSongsInfo(u).GetAwaiter().GetResult();
+                });
 
             return TransformResult;
         }
 
         private async Task GetSongsInfo(string url)
         {
-
-            var content = await GetHtmlContent(url);
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(content);
-            var songNameNodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='song_name']/a[1]");
-            var artistNameNodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='song_name']/a[@class='artist_name'][1]");
-
-            if (songNameNodes.Count != artistNameNodes.Count)
+            try
             {
-                return;
+                var content = await GetHtmlContent(url);
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(content);
+                var songNameNodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='song_name']/a[1]");
+                var artistNameNodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='song_name']/a[@class='artist_name'][1]");
+
+                if (songNameNodes.Count != artistNameNodes.Count)
+                {
+                    return;
+                }
+                for (var i = 0; i != songNameNodes.Count; i++)
+                {
+                    var song = new Song
+                    {
+                        SongName = songNameNodes[i].InnerHtml,
+                        Artist = artistNameNodes[i].InnerHtml
+                    };
+
+                    // 只处理songName全部是汉字或者数字或者英文字母的情况
+                    var regexItem = new Regex("[`@#$^&*=|{};<>！@#￥……&*（）——|{}【】‘；：”“。，、]");
+
+                    if (song.SongName.Any(c => regexItem.IsMatch(c.ToString())) || song.Artist.Any(c => regexItem.IsMatch(c.ToString())))
+                    {
+                        TransformResult.UnrecognizedSongs.Add(song);
+                    }
+                    else
+                    {
+                        TransformResult.RecognizedSongs.Add(song);
+                    }
+                }
             }
-            for (var i = 0; i != songNameNodes.Count; i++)
+            catch (Exception ex)
             {
-                var song = new Song
-                {
-                    SongName = songNameNodes[i].InnerHtml,
-                    Artist = artistNameNodes[i].InnerHtml
-                };
 
-                // 只处理songName全部是汉字或者数字或者英文字母的情况
-                var regexItem = new Regex("[`@#$^&*=|{};<>！@#￥……&*（）——|{}【】‘；：”“。，、]");
-                
-                if (song.SongName.Any(c => regexItem.IsMatch(c.ToString())) || song.Artist.Any(c => regexItem.IsMatch(c.ToString())))
-                {
-                    TransformResult.UnrecognizedSongs.Add(song);
-                }
-                else
-                {
-                    TransformResult.RecognizedSongs.Add(song);
-                }
             }
         }
 
@@ -98,7 +106,10 @@ namespace TransformHelper
         private async Task<string> GetHtmlContent(string url)
         {
             //HttpClient.DefaultRequestHeaders.Add("Host", "www.xiami.com");
-            HttpClient.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+            if (!HttpClient.DefaultRequestHeaders.Contains("user-agent"))
+            {
+                HttpClient.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+            }
             var response = await HttpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
             return WebUtility.HtmlDecode(result);
